@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Consistenza</title>
+<link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+</head>
+<body>
+<div class="container my-2" align="center">
+ 
+<h3>Consistenza List</h3>
+
+    <table style="width:80%" border="1"
+           class = "table table-striped table-responsive-md">
+    <thead>
+  <tr>
+    <th>
+				<a th:href="@{'/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">
+							id</a>
+					</th>
+					<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=stato&sortDir=' + ${reverseSortDir}}">
+							stato</a>
+					</th>					
+					<th>esito collaudo</th>		
+					<th>data stato</th>
+					<th>data attivazione</th>
+					<th>azione</th>
+					
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="consistenze:${allconsistenzalist}">
+        <td th:text="${consistenze.id}"></td>
+        <td th:text="${consistenze.stato}"></td>
+        <td>
+        <span th:if ="${consistenze.esitoCollaudo}">Positivo</span>
+           
+           <span th:if="${consistenze.esitoCollaudo==null}">  </span>
+           <span th:if="${consistenze.esitoCollaudo==false}"> Negativo </span>
+
+           
+           </td>
+           
+         <td th:text="${#dates.format(consistenze.dataStato, 'dd-MMM-yyyy')}"></td>
+         <td th:text="${#dates.format(consistenze.dataAttivazione, 'dd-MMM-yyyy')}"></td>
+         <td> <a th:href="@{/dettaglioConsistenza/{id}(id=${consistenze.id})}">Dettaglio</a></td>
+
+
+  
+        
+
+         
+       
+    
+  </tr>
+  </tbody>
+</table>
+
+<div th:if = "${totalPages > 1}">
+			<div class = "row col-sm-10">
+				<div class = "col-sm-2">
+					Total Rows: [[${totalItems}]] 
+				</div>
+			<!--  <div class = "col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span> -->
+				</div>
+				<div class = "col-sm-1">
+					<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previus</a>
+					<span th:unless="${currentPage < totalPages}">Previus</span>
+				</div>
+				
+				
+				<div class = "col-sm-1">
+					<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+					<span th:unless="${currentPage < totalPages}">Next</span>
+				</div>
+				<div class="col-sm-1">
+    				<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+					<span th:unless="${currentPage < totalPages}">First</span>
+   				 </div>
+				
+				
+				 <div class="col-sm-1">
+    				<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+					<span th:unless="${currentPage < totalPages}">Last</span>
+   				 </div>
+			</div>
+		</div>
+		
+</div>
+
+         <td> <a th:href="@{/richieste/}">Richieste</a></td>
+
+</body>
+</html>
